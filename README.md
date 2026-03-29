@@ -10,3 +10,8 @@
    在文件夹内打开cmd执行`npm install`
 2. 运行:`npm run dev`
 3. 在浏览器访问`localhost:3000`
+
+
+# Update
+
+1. 由Qwen Coder Next实现的Electron打包（实现尚不完全）
