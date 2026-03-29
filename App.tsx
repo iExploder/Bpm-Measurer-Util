@@ -9,6 +9,7 @@ import Visualizer from './components/Visualizer';
 import { AudioData, ViewState, TimingPoint } from './types';
 import { extractPeaks } from './utils/audioUtils';
 import { recalculateTiming, getPointAtTime, getTimeAtBeatIndex } from './utils/timingUtils';
+import { handleFileUpload } from './utils/fileUtils';
 
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 1500;
@@ -209,8 +210,25 @@ function App() {
       setRawPoints(prev => prev.filter(p => p.id !== id || p.beatIndex === 0));
   }, []);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement> | null = null) => {
+    let file: File | null = null;
+    
+    // Check if Electron is available
+    if (typeof window !== 'undefined' && 'electronAPI' in window) {
+      const filePath = await (window as any).electronAPI.openAudioFile();
+      if (filePath) {
+        // Use Node.js fs in Electron
+        const fs = (window as any).require?.('fs');
+        if (fs) {
+          const arrayBuffer = fs.readFileSync(filePath).buffer;
+          file = new File([arrayBuffer], filePath.split(/[\\/]/).pop() || 'unknown', { type: 'audio/*' });
+        }
+      }
+    } else if (e) {
+      // Browser environment
+      file = e.target.files?.[0] || null;
+    }
+    
     if (!file) return;
     setFileName(file.name);
     const arrayBuffer = await file.arrayBuffer();

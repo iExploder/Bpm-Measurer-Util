@@ -10,9 +10,6 @@
       "DOM.Iterable"
     ],
     "skipLibCheck": true,
-    "types": [
-      "node"
-    ],
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -25,5 +22,14 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "vite.config.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "App.tsx",
+    "index.tsx",
+    "types.ts"
+  ],
+  "exclude": ["node_modules", "dist", "dist-electron", "src/electron.d.ts"]
 }

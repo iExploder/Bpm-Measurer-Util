@@ -45,6 +45,10 @@ export const computeFFT = (input: Float32Array): Float32Array => {
   
   const real = fftRealCache;
   const imag = fftImagCache;
+
+  if (!imag || !real) {
+    throw new Error('FFT buffers not initialized');
+  }
   
   // Initialize
   for(let i=0; i<n; i++) {
