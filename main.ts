@@ -20,8 +20,12 @@ const createWindow = () => {
     },
     backgroundColor: '#0f0f0f',
     show: false,
-    icon: path.join(__dirname, 'icon.ico')
+    icon: path.join(__dirname, 'icon.ico'),
+    autoHideMenuBar: true
   });
+
+  mainWindow.setMenuBarVisibility(false);
+  mainWindow.removeMenu();
 
   mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
 
